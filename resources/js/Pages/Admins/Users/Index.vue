@@ -14,12 +14,22 @@
                                         Create
                                     </button>
                                     <div class="card-tools">
-                                        <div class="input-group input-group-sm" style="width: 150px;">
-<!--                                            <input type="text" v-model="params.search" class="form-control float-right" placeholder="Buscar">-->
-                                            <input type="text" v-model="emailSearch" @keyup="userSearch" class="form-control float-right" placeholder="Search Email">
-                                            <select v-model="perPage" @change="userSearch" class="form-control form-control-sm select-sm mb-2">
+                                        <div class="input-group input-group-sm">
+<!--                                            <input type="text" v-model="params.email" class="form-control float-right mr-2" placeholder="Email">-->
+<!--                                            <input type="text" v-model="params.name" class="form-control float-right mr-2" placeholder="Name">-->
+<!--                                            <select v-model="params.perPage" class="form-control form-control-sm select-sm mb-2">-->
+<!--                                                <option value="5">5 por página</option>-->
+<!--                                                <option value="10">10 por página</option>-->
+<!--                                                <option value="15">15 por página</option>-->
+<!--                                                <option value="25">25 por página</option>-->
+<!--                                                <option value="50">50 por página</option>-->
+<!--                                                <option value="100">100 por página</option>-->
+<!--                                            </select>-->
+                                            <input type="text" v-model="params.nameSearch" class="form-control float-right mr-1" placeholder="Name">
+                                            <input type="text" v-model="params.emailSearch" class="form-control float-right mr-1" placeholder="Email">
+                                            <select v-model="params.perPage" class="form-control form-control-sm select-sm mb-2">
                                                 <option value="5">5 por página</option>
-                                                <option value="10">10 por página</option>
+                                                <option value="10" selected>10 por página</option>
                                                 <option value="15">15 por página</option>
                                                 <option value="25">25 por página</option>
                                                 <option value="50">50 por página</option>
@@ -145,8 +155,8 @@
 import AdminLayout from "@/Layouts/AdminLayout";
 import Pagination from "@/Components/Pagination";
 export default {
-    // props:['roles','users','perPage','emailSearch','filters'],
-    props:['roles','users','perPage','emailSearch'],
+    //props:['roles','users','perPage','filters'],
+    props:['roles','users','perPage','emailSearch','nameSearch'],
     components:{AdminLayout,Pagination},
     data(){
         return {
@@ -160,11 +170,17 @@ export default {
             }),
             roleOptions:this.roles,
             // params:{
-            //     search: this.filters.search,
+            //     name: this.filters.name,
+            //     email: this.filters.email,
             //     field: this.filters.field,
             //     direction: this.filters.direction,
-            //     perPage:this.perPage
-            // }
+            //     perPage: this.perPage
+            // },
+            params:{
+                    emailSearch: this.emailSearch,
+                    nameSearch: this.nameSearch,
+                    perPage: this.perPage
+                }
         }
     },
     // watch:{
@@ -176,13 +192,32 @@ export default {
     //                 if (params[key] == ''){
     //                     delete params[key]
     //                 }
+    //                 if (params.perPage == '5'){
+    //                     delete params.perPage
+    //                 }
     //             });
     //
-    //             this.$inertia.get(this.route('admin.users.index', params, { replace: true, preserveState: true}));
+    //             this.$inertia.replace(this.route('admin.users.index', params,{ preserveState: true, preserveScroll: true }));
     //         },
     //         deep: true,
     //     }
     // },
+    watch:{
+            params:{
+                handler(){
+                    let params=this.params;
+
+                    Object.keys(params).forEach(key=>{
+                        if (params[key] == ''){
+                            delete params[key]
+                        }
+                    });
+
+                    this.$inertia.replace(this.route('admin.users.index', params,{ preserveState: true, preserveScroll: true }));
+                },
+                deep: true,
+            }
+        },
     computed:{
         formTitle(){
             return this.editedIndex===-1 ? 'Create New User':'Edit Current User';
@@ -199,15 +234,15 @@ export default {
         //     this.params.field=field;
         //     this.params.direction = this.params.direction === 'asc' ? 'desc':'asc';
         // },
-        userSearch: function (){
-            let perPage=this.perPage;
-            Object.keys(perPage).forEach(key=>{
-                if (perPage[key] == ''){
-                    delete perPage[key]
-                }
-            });
-            this.$inertia.get(this.route('admin.users.index'),{emailSearch: this.emailSearch, perPage: this.perPage}, { replace: true, preserveState: true, preserveScroll: true });
-        },
+        // userSearch: function (){
+        //     let perPage=this.perPage;
+        //     Object.keys(perPage).forEach(key=>{
+        //         if (perPage[key] == ''){
+        //             delete perPage[key]
+        //         }
+        //     });
+        //     this.$inertia.get(this.route('admin.users.index'),{emailSearch: this.emailSearch, perPage: this.perPage}, { replace: true, preserveState: true, preserveScroll: true });
+        // },
         addTag(newRole) {
             let tag = {
                 name: newRole,

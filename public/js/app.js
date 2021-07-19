@@ -19029,8 +19029,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  // props:['roles','users','perPage','emailSearch','filters'],
-  props: ['roles', 'users', 'perPage', 'emailSearch'],
+  //props:['roles','users','perPage','filters'],
+  props: ['roles', 'users', 'perPage', 'emailSearch', 'nameSearch'],
   components: {
     AdminLayout: _Layouts_AdminLayout__WEBPACK_IMPORTED_MODULE_0__.default,
     Pagination: _Components_Pagination__WEBPACK_IMPORTED_MODULE_1__.default
@@ -19045,13 +19045,19 @@ __webpack_require__.r(__webpack_exports__);
         email: '',
         roles: []
       }),
-      roleOptions: this.roles // params:{
-      //     search: this.filters.search,
+      roleOptions: this.roles,
+      // params:{
+      //     name: this.filters.name,
+      //     email: this.filters.email,
       //     field: this.filters.field,
       //     direction: this.filters.direction,
-      //     perPage:this.perPage
-      // }
-
+      //     perPage: this.perPage
+      // },
+      params: {
+        emailSearch: this.emailSearch,
+        nameSearch: this.nameSearch,
+        perPage: this.perPage
+      }
     };
   },
   // watch:{
@@ -19063,13 +19069,33 @@ __webpack_require__.r(__webpack_exports__);
   //                 if (params[key] == ''){
   //                     delete params[key]
   //                 }
+  //                 if (params.perPage == '5'){
+  //                     delete params.perPage
+  //                 }
   //             });
   //
-  //             this.$inertia.get(this.route('admin.users.index', params, { replace: true, preserveState: true}));
+  //             this.$inertia.replace(this.route('admin.users.index', params,{ preserveState: true, preserveScroll: true }));
   //         },
   //         deep: true,
   //     }
   // },
+  watch: {
+    params: {
+      handler: function handler() {
+        var params = this.params;
+        Object.keys(params).forEach(function (key) {
+          if (params[key] == '') {
+            delete params[key];
+          }
+        });
+        this.$inertia.replace(this.route('admin.users.index', params, {
+          preserveState: true,
+          preserveScroll: true
+        }));
+      },
+      deep: true
+    }
+  },
   computed: {
     formTitle: function formTitle() {
       return this.editedIndex === -1 ? 'Create New User' : 'Edit Current User';
@@ -19086,22 +19112,15 @@ __webpack_require__.r(__webpack_exports__);
     //     this.params.field=field;
     //     this.params.direction = this.params.direction === 'asc' ? 'desc':'asc';
     // },
-    userSearch: function userSearch() {
-      var perPage = this.perPage;
-      Object.keys(perPage).forEach(function (key) {
-        if (perPage[key] == '') {
-          delete perPage[key];
-        }
-      });
-      this.$inertia.get(this.route('admin.users.index'), {
-        emailSearch: this.emailSearch,
-        perPage: this.perPage
-      }, {
-        replace: true,
-        preserveState: true,
-        preserveScroll: true
-      });
-    },
+    // userSearch: function (){
+    //     let perPage=this.perPage;
+    //     Object.keys(perPage).forEach(key=>{
+    //         if (perPage[key] == ''){
+    //             delete perPage[key]
+    //         }
+    //     });
+    //     this.$inertia.get(this.route('admin.users.index'),{emailSearch: this.emailSearch, perPage: this.perPage}, { replace: true, preserveState: true, preserveScroll: true });
+    // },
     addTag: function addTag(newRole) {
       var tag = {
         name: newRole
@@ -25069,10 +25088,7 @@ var _hoisted_8 = {
   "class": "card-tools"
 };
 var _hoisted_9 = {
-  "class": "input-group input-group-sm",
-  style: {
-    "width": "150px"
-  }
+  "class": "input-group input-group-sm"
 };
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
@@ -25082,7 +25098,8 @@ var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 );
 
 var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
-  value: "10"
+  value: "10",
+  selected: ""
 }, "10 por página", -1
 /* HOISTED */
 );
@@ -25238,29 +25255,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[1] || (_cache[1] = function () {
           return $options.openModal && $options.openModal.apply($options, arguments);
         })
-      }, " Create "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                            <input type=\"text\" v-model=\"params.search\" class=\"form-control float-right\" placeholder=\"Buscar\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+      }, " Create "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                            <input type=\"text\" v-model=\"params.email\" class=\"form-control float-right mr-2\" placeholder=\"Email\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                            <input type=\"text\" v-model=\"params.name\" class=\"form-control float-right mr-2\" placeholder=\"Name\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                            <select v-model=\"params.perPage\" class=\"form-control form-control-sm select-sm mb-2\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                                <option value=\"5\">5 por página</option>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                                <option value=\"10\">10 por página</option>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                                <option value=\"15\">15 por página</option>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                                <option value=\"25\">25 por página</option>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                                <option value=\"50\">50 por página</option>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                                <option value=\"100\">100 por página</option>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                                            </select>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
         type: "text",
         "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-          return $props.emailSearch = $event;
+          return $data.params.nameSearch = $event;
         }),
-        onKeyup: _cache[3] || (_cache[3] = function () {
-          return $options.userSearch && $options.userSearch.apply($options, arguments);
+        "class": "form-control float-right mr-1",
+        placeholder: "Name"
+      }, null, 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.params.nameSearch]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+        type: "text",
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+          return $data.params.emailSearch = $event;
         }),
-        "class": "form-control float-right",
-        placeholder: "Search Email"
-      }, null, 544
-      /* HYDRATE_EVENTS, NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.emailSearch]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+        "class": "form-control float-right mr-1",
+        placeholder: "Email"
+      }, null, 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.params.emailSearch]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
         "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-          return $props.perPage = $event;
-        }),
-        onChange: _cache[5] || (_cache[5] = function () {
-          return $options.userSearch && $options.userSearch.apply($options, arguments);
+          return $data.params.perPage = $event;
         }),
         "class": "form-control form-control-sm select-sm mb-2"
-      }, [_hoisted_10, _hoisted_11, _hoisted_12, _hoisted_13, _hoisted_14, _hoisted_15], 544
-      /* HYDRATE_EVENTS, NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $props.perPage]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card-header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("table", _hoisted_17, [_hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.users.data, function (user, index) {
+      }, [_hoisted_10, _hoisted_11, _hoisted_12, _hoisted_13, _hoisted_14, _hoisted_15], 512
+      /* NEED_PATCH */
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.params.perPage]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" /.card-header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("table", _hoisted_17, [_hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.users.data, function (user, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("tr", {
           key: index
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 1
@@ -25303,7 +25323,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.email), 1
       /* TEXT */
       )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
-        onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+        onSubmit: _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
           return $options.checkMode && $options.checkMode.apply($options, arguments);
         }, ["prevent"]))
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_36, [_hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
@@ -25312,7 +25332,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           'is-invalid': $data.form.errors.name
         }],
         placeholder: "User Name",
-        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
           return $data.form.name = $event;
         }),
         autofocus: "autofocus",
@@ -25331,7 +25351,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           'is-invalid': $data.form.errors.email
         }],
         placeholder: "User Email",
-        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
           return $data.form.email = $event;
         }),
         autocomplete: "off"
@@ -25345,7 +25365,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* TEXT, CLASS */
       ), $data.editMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_40, [_hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_multiselect, {
         modelValue: $data.form.roles[0],
-        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
           return $data.form.roles[0] = $event;
         }),
         options: $data.roleOptions,
@@ -25376,7 +25396,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         style: {
           "letter-spacing": "0.1em"
         },
-        onClick: _cache[9] || (_cache[9] = function () {
+        onClick: _cache[8] || (_cache[8] = function () {
           return $options.closeModal && $options.closeModal.apply($options, arguments);
         })
       }, "Cancel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {

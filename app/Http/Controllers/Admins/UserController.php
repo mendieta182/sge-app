@@ -19,11 +19,14 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        //dd($request);
         $perPage = $request->has('perPage') ? $request->perPage : 5;
         $emailSearch = $request->has('emailSearch') ? $request->emailSearch : '';
+        $nameSearch = $request->has('nameSearch') ? $request->nameSearch : '';
 
         $users=User::where('is_admin',0)
                 ->where('email','LIKE','%'.$emailSearch.'%')
+                ->where('name','LIKE','%'.$nameSearch.'%')
                 ->paginate($perPage)->withQueryString();
 
         $roles=Role::all();
@@ -31,6 +34,7 @@ class UserController extends Controller
         return Inertia::render('Admins/Users/Index',[
             'perPage'=>$perPage,
             'emailSearch'=>$emailSearch,
+            'nameSearch'=>$nameSearch,
             'users' => $users,
             'roles' => $roles,
         ]);
@@ -43,10 +47,13 @@ class UserController extends Controller
 //
 //        $query = User::query();
 //
-//        $perPage = request('perPage') ? request('perPage') : 5;
+//        $perPage = $request->has('perPage') ? $request->perPage : 5;
 //
-//        if (request('search')){
-//            $query->where('name','LIKE','%'.request('search').'%');
+//        if (request('email')){
+//            $query->where('email','LIKE','%'.request('email').'%');
+//        }
+//        if (request('name')){
+//            $query->where('name','LIKE','%'.request('name').'%');
 //        }
 //
 //        if (request()->has(['field','direction'])){
@@ -54,9 +61,9 @@ class UserController extends Controller
 //        }
 //
 //        return Inertia::render('Admins/Users/Index',[
-//            'users'=>$query->paginate(),
-//            'filters'=>request()->all('search','field','direction'),
-//            'perPage'=>$perPage
+//            'users'=>$query->paginate($perPage)->withQueryString(),
+//            'filters'=>request()->all('name','email','field','direction'),
+//            'perPage'=>$perPage,
 //        ]);
     }
 
