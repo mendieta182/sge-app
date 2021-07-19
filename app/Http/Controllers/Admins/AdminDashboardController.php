@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admins;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,7 +17,12 @@ class AdminDashboardController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Admins/Dashboard');
+        $now=Carbon::now();
+        $ago=$now->subDays(1);
+        return Inertia::render('Admins/Dashboard',[
+            'users'=>User::where('is_admin',0)->count(),
+            'admins'=>User::where('is_admin',1)->count()
+        ]);
     }
 
     /**

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admins;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
-class \AdminController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +17,10 @@ class \AdminController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Admins/Admins/Index',[
+            'admins'=>User::where('is_admin',1)->latest()->paginate(),
+            'roles'=>Role::all()
+        ]);
     }
 
     /**
@@ -70,7 +75,21 @@ class \AdminController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        if (!$request->roles) {
+            return back()->withErrors(['roles' => 'The role field is required']);
+        }
+
+        if ($request->roles['id'] != 5) {
+            $adminRole = Role::where('id', $request->roles['id'])->first();
+            $user->syncRoles($adminRole);
+            return back();
+        }else{
+            $userRole=Role::where('id',5)->first();
+            $user->update(['is_admin'=>0]);
+            $user->syncRoles($userRole);
+            return back();
+        }
+        return back();
     }
 
     /**

@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admins\AdminController;
+use App\Http\Controllers\Admins\PermissionController;
+use App\Http\Controllers\Admins\RoleController;
+use App\Http\Controllers\Admins\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,6 +33,21 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
 
-Route::prefix('admin')->name('admin')->middleware(['auth:sanctum','verified'])->group(function (){
+Route::prefix('admin')->name('admin.')
+    ->middleware(['auth:sanctum','verified','role_or_permission:super-admin|admin'])
+    ->group(function (){
     Route::get('dashboard',[AdminDashboardController::class,'index'])->name('dashboard.index');
+
+    Route::resource('admins',AdminController::class)
+        ->parameters(['admins'=>'user'])
+        ->only(['index','update']);
+
+    Route::resource('users',UserController::class)
+        ->except(['create','show','edit']);
+
+    Route::resource('permissions',PermissionController::class)
+        ->except(['create','show','edit']);
+
+    Route::resource('roles',RoleController::class)
+        ->except(['create','show','edit']);
 });

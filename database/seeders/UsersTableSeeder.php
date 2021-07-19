@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -26,7 +27,8 @@ class UsersTableSeeder extends Seeder
                 'remember_token' => Str::random(10),
             ]);
             $role = Role::where('id', 5)->first();
-            $user->syncRoles($role);
+            $permission = Permission::where('name', 'N/A')->first();
+            $user->syncRoles($role)->syncPermissions($permission);
         }
     }
 }

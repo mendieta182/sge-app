@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admins;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PermissionController extends Controller
 {
@@ -15,7 +16,9 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Admins/Permissions/Index',[
+            'permissions'=>Permission::latest()->paginate(5)
+        ]);
     }
 
     /**
@@ -36,7 +39,17 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+                'name'=>['required','max:25','min:2','unique:permissions'],
+                'description'=>['required','max:25','min:2'],
+            ]
+        );
+        Permission::create([
+            'name'=>$request->name,
+            'description'=>$request->description,
+            'guard_name'=>'web',
+        ]);
+        return back();
     }
 
     /**
@@ -70,7 +83,16 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        //
+        $this->validate($request,[
+                'name'=>['required','max:25','min:2'],
+                'description'=>['required','max:25','min:2'],
+            ]
+        );
+        $permission->update([
+            'name'=>$request->name,
+            'description'=>$request->description,
+        ]);
+        return back();
     }
 
     /**
@@ -81,6 +103,7 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
+        return back();
     }
 }
