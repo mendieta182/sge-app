@@ -20,7 +20,12 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //dd($request);
+        //dd($request->page);
+
+        $page = $request->has('page') ? $request->page : 1;
+
         $perPage = $request->has('perPage') ? $request->perPage : 5;
+
         $emailSearch = $request->has('emailSearch') ? $request->emailSearch : '';
         $nameSearch = $request->has('nameSearch') ? $request->nameSearch : '';
 
@@ -37,6 +42,7 @@ class UserController extends Controller
             'nameSearch'=>$nameSearch,
             'users' => $users,
             'roles' => $roles,
+            'page'=>$page
         ]);
 
 //        request()->validate([

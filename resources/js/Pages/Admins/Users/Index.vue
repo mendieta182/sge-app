@@ -9,7 +9,7 @@
                         <div class="col-12">
                             <div class="card card-outline card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Users</h3>
+                                    <h3 class="card-title">Users {{page}}</h3>
                                     <button type="button" class="btn btn-info text-uppercase ml-1 btn-sm" style="letter-spacing: 0.1em;" @click="openModal">
                                         Create
                                     </button>
@@ -27,9 +27,10 @@
 <!--                                            </select>-->
                                             <input type="text" v-model="params.nameSearch" class="form-control float-right mr-1" placeholder="Name">
                                             <input type="text" v-model="params.emailSearch" class="form-control float-right mr-1" placeholder="Email">
+                                            <input type="text" v-model="params.page" placeholder="" class="form-control float-right mr-1">
                                             <select v-model="params.perPage" class="form-control form-control-sm select-sm mb-2">
                                                 <option value="5">5 por página</option>
-                                                <option value="10" selected>10 por página</option>
+                                                <option value="10">10 por página</option>
                                                 <option value="15">15 por página</option>
                                                 <option value="25">25 por página</option>
                                                 <option value="50">50 por página</option>
@@ -42,30 +43,36 @@
                                 <div class="card-body table-responsive p-0">
                                     <table class="table table-hover text-nowrap">
                                         <thead>
-                                        <tr>
-<!--                                            <th><span @click="sort('name')">Name</span></th>-->
-<!--                                            <th><span @click="sort('email')">Email</span></th>-->
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Joined</th>
-                                            <th>Actions</th>
-                                        </tr>
+                                            <tr>
+    <!--                                            <th><span @click="sort('name')">Name</span></th>-->
+    <!--                                            <th><span @click="sort('email')">Email</span></th>-->
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Joined</th>
+                                                <th>Actions</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        <tr v-for="(user,index) in users.data" :key="index">
-                                            <td>{{ user.name }}</td>
-                                            <td>{{ user.email }}</td>
-                                            <td>{{ user.created_at }}</td>
-                                            <td class="text-right">
-                                                <button class="btn btn-warning btn-sm" style="letter-spacing: 0.1em;" @click="editModal(user)">Edit</button>
-                                                <button class="btn btn-danger btn-sm ml-1" style="letter-spacing: 0.1em;" @click="deleteUser(user)">Delete</button>
-                                            </td>
-                                        </tr>
+                                            <tr v-for="(user,index) in users.data" :key="index">
+                                                <td>{{ user.name }}</td>
+                                                <td>{{ user.email }}</td>
+                                                <td>{{ user.created_at }}</td>
+                                                <td class="text-right">
+                                                    <button class="btn btn-warning btn-sm" style="letter-spacing: 0.1em;" @click="editModal(user)">Edit</button>
+                                                    <button class="btn btn-danger btn-sm ml-1" style="letter-spacing: 0.1em;" @click="deleteUser(user)">Delete</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td v-if="users.data.length === 0" colspan="4">No users found.</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer clearfix">
+                                    <span class="m-0 float-left">
+                                     {{($page.props.perPage*($page.props.page-1))+1}} - {{$page.props.perPage*$page.props.page}} de {{$page.props.users.total}}
+                                    </span>
                                     <pagination :links="users.links"></pagination>
                                 </div>
                             </div>
@@ -154,9 +161,10 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout";
 import Pagination from "@/Components/Pagination";
+import {pickBy} from "lodash";
 export default {
     //props:['roles','users','perPage','filters'],
-    props:['roles','users','perPage','emailSearch','nameSearch'],
+    props:['roles','users','perPage','emailSearch','nameSearch','page'],
     components:{AdminLayout,Pagination},
     data(){
         return {
@@ -179,7 +187,8 @@ export default {
             params:{
                     emailSearch: this.emailSearch,
                     nameSearch: this.nameSearch,
-                    perPage: this.perPage
+                    perPage: this.perPage,
+                    page: this.page
                 }
         }
     },
@@ -205,15 +214,27 @@ export default {
     watch:{
             params:{
                 handler(){
-                    let params=this.params;
+                    let params=pickBy(this.params);
+                    //let params=this.params;
+
+                    // Object.keys(params).forEach(key=>{
+                    //     if (params[key] == ''){
+                    //         delete params[key]
+                    //     }
+                    // });
 
                     Object.keys(params).forEach(key=>{
-                        if (params[key] == ''){
-                            delete params[key]
+                        if (params.perPage == 5){
+                            delete params.perPage
+                        }
+                        if (params.page==1){
+                            delete params.page
                         }
                     });
 
-                    this.$inertia.replace(this.route('admin.users.index', params,{ preserveState: true, preserveScroll: true }));
+                    this.$inertia.replace(this.route('admin.users.index',
+                        params,
+                        { preserveState: true, preserveScroll: true }));
                 },
                 deep: true,
             }
