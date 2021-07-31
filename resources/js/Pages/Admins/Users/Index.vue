@@ -9,25 +9,15 @@
                         <div class="col-12">
                             <div class="card card-outline card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Users {{page}}</h3>
+                                    <h3 class="card-title">Users</h3>
                                     <button type="button" class="btn btn-info text-uppercase ml-1 btn-sm" style="letter-spacing: 0.1em;" @click="openModal">
                                         Create
                                     </button>
                                     <div class="card-tools">
                                         <div class="input-group input-group-sm">
-<!--                                            <input type="text" v-model="params.email" class="form-control float-right mr-2" placeholder="Email">-->
-<!--                                            <input type="text" v-model="params.name" class="form-control float-right mr-2" placeholder="Name">-->
-<!--                                            <select v-model="params.perPage" class="form-control form-control-sm select-sm mb-2">-->
-<!--                                                <option value="5">5 por página</option>-->
-<!--                                                <option value="10">10 por página</option>-->
-<!--                                                <option value="15">15 por página</option>-->
-<!--                                                <option value="25">25 por página</option>-->
-<!--                                                <option value="50">50 por página</option>-->
-<!--                                                <option value="100">100 por página</option>-->
-<!--                                            </select>-->
                                             <input type="text" v-model="params.nameSearch" class="form-control float-right mr-1" placeholder="Name">
                                             <input type="text" v-model="params.emailSearch" class="form-control float-right mr-1" placeholder="Email">
-                                            <input type="text" v-model="params.page" placeholder="" class="form-control float-right mr-1">
+<!--                                            <input type="text" v-model="params.page" placeholder="" class="form-control float-right mr-1">-->
                                             <select v-model="params.perPage" class="form-control form-control-sm select-sm mb-2">
                                                 <option value="5">5 por página</option>
                                                 <option value="10">10 por página</option>
@@ -46,6 +36,7 @@
                                             <tr>
     <!--                                            <th><span @click="sort('name')">Name</span></th>-->
     <!--                                            <th><span @click="sort('email')">Email</span></th>-->
+                                                <th>#</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Joined</th>
@@ -54,6 +45,7 @@
                                         </thead>
                                         <tbody>
                                             <tr v-for="(user,index) in users.data" :key="index">
+                                                <th >{{ (index+1) + $page.props.users.current_page * $page.props.users.per_page - $page.props.users.per_page }}</th>
                                                 <td>{{ user.name }}</td>
                                                 <td>{{ user.email }}</td>
                                                 <td>{{ user.created_at }}</td>
@@ -71,7 +63,8 @@
                                 <!-- /.card-body -->
                                 <div class="card-footer clearfix">
                                     <span class="m-0 float-left">
-                                     {{($page.props.perPage*($page.props.page-1))+1}} - {{$page.props.perPage*$page.props.page}} de {{$page.props.users.total}}
+                                     Mostrando del {{$page.props.users.from}} al {{$page.props.users.to}} de {{$page.props.users.total}} Usuarios
+<!--                                        Página {{$page.props.users.current_page}} - Última página  {{$page.props.users.last_page}} - Por página {{$page.props.users.per_page}}-->
                                     </span>
                                     <pagination :links="users.links"></pagination>
                                 </div>

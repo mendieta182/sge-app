@@ -130,21 +130,59 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                    <img v-if="$page.props.jetstream.managesProfilePhotos" class="rounded-circle img-sm" width="32" height="32" :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name" />
+                    <span class="fas fa-flag"></span> Idiomas
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">Manage Account</span>
-                    <div class="dropdown-divider"></div>
-                    <jet-dropdown-link :href="route('profile.show')">
-                        <i class="fas fa-user mr-1"></i> Profile
-                    </jet-dropdown-link>
-                    <div class="dropdown-divider"></div>
-                    <form @submit.prevent="logout">
-                        <jet-dropdown-link as="button">
-                            <i class="nav-icon fas fa-sign-out-alt text-danger"></i> Logout
-                        </jet-dropdown-link>
-                    </form>
+                    <a class="dropdown-item" href="#"><span class="flag-icon"></span> Español</a>
+                    <a class="dropdown-item" href="#"><span class="flag-icon"></span> Inglés</a>
                 </div>
+            </li>
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <language-selector />
+            </div>
+<!--            <li class="nav-item dropdown">-->
+<!--                <a class="nav-link" data-toggle="dropdown" href="#">-->
+<!--                    <img v-if="$page.props.jetstream.managesProfilePhotos" class="rounded-circle img-sm" width="32" height="32" :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name" />-->
+<!--                </a>-->
+<!--                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">-->
+<!--                    <span class="dropdown-item dropdown-header">Manage Account</span>-->
+<!--                    <div class="dropdown-divider"></div>-->
+<!--                    <jet-dropdown-link :href="route('profile.show')">-->
+<!--                        <i class="fas fa-user mr-1"></i> Profile-->
+<!--                    </jet-dropdown-link>-->
+<!--                    <div class="dropdown-divider"></div>-->
+<!--                    <form @submit.prevent="logout">-->
+<!--                        <jet-dropdown-link as="button">-->
+<!--                            <i class="nav-icon fas fa-sign-out-alt text-danger"></i> Logout-->
+<!--                        </jet-dropdown-link>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </li>-->
+
+           <li class="nav-item dropdown user-menu">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <img v-if="$page.props.jetstream.managesProfilePhotos" :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name" class="user-image img-circle elevation-2">
+                    <span class="d-none d-md-inline">{{$page.props.user.role}}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <li class="user-header bg-primary">
+                        <img v-if="$page.props.jetstream.managesProfilePhotos" :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name" class="user-image img-circle elevation-2">
+                        <p>
+                            {{$page.props.user.name}}
+                            <small>Member since {{$page.props.user.email}}</small>
+                        </p>
+                    </li>
+                    <li class="user-footer">
+                        <jet-dropdown-link :href="route('profile.show')">
+                            <i class="fas fa-user mr-1"></i> Profile
+                        </jet-dropdown-link>
+                        <form @submit.prevent="logout">
+                            <jet-dropdown-link as="button">
+                                <i class="nav-icon fas fa-sign-out-alt text-danger"></i> Logout
+                            </jet-dropdown-link>
+                        </form>
+                    </li>
+                </ul>
             </li>
         </ul>
     </nav>
@@ -152,9 +190,11 @@
 
 <script>
 import JetDropdownLink from '@/Jetstream/DropdownLink'
+import LanguageSelector from "@/Shared/LanguageSelector";
     export default{
         components:{
-            JetDropdownLink
+            JetDropdownLink,
+            LanguageSelector
         },
         methods:{
             logout() {

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
 use NascentAfrica\Jetstrap\JetstrapFacade;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,5 +28,18 @@ class AppServiceProvider extends ServiceProvider
     {
         JetstrapFacade::useAdminLte3();
         Paginator::useBootstrap();
+
+        Inertia::share([
+            // ...
+            'locale' => function () {
+                return app()->getLocale();
+            },
+            'language' => function () {
+                return translations(
+                    resource_path('lang/'. app()->getLocale() .'.json')
+                );
+            },
+            // ...
+        ]);
     }
 }

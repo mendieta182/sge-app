@@ -22,7 +22,7 @@ class UserController extends Controller
         //dd($request);
         //dd($request->page);
 
-        $page = $request->has('page') ? $request->page : 1;
+//        $page = $request->has('page') ? $request->page : 1;
 
         $perPage = $request->has('perPage') ? $request->perPage : 5;
 
@@ -42,7 +42,7 @@ class UserController extends Controller
             'nameSearch'=>$nameSearch,
             'users' => $users,
             'roles' => $roles,
-            'page'=>$page
+//            'page'=>$page
         ]);
 
 //        request()->validate([

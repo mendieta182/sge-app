@@ -2,6 +2,7 @@
     <admin-layout>
         <template #header>
             <h1 class="m-0">Dashboard</h1>
+            {{ trans.get('Dashboard') }}
         </template>
 
         <section class="content">
@@ -847,5 +848,19 @@
     export default {
         props:['users','admins'],
         components: {AdminLayout},
+    }
+
+
+    const messages = {
+        en: {
+            message: {
+                hello: 'hello world'
+            }
+        },
+        ar: {
+            message: {
+                hello: 'こんにちは、世界'
+            }
+        }
     }
 </script>
