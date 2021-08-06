@@ -128,15 +128,6 @@
                     <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <span class="fas fa-flag"></span> Idiomas
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <a class="dropdown-item" href="#"><span class="flag-icon"></span> Español</a>
-                    <a class="dropdown-item" href="#"><span class="flag-icon"></span> Inglés</a>
-                </div>
-            </li>
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                 <language-selector />
             </div>
@@ -174,11 +165,11 @@
                     </li>
                     <li class="user-footer">
                         <jet-dropdown-link :href="route('profile.show')">
-                            <i class="fas fa-user mr-1"></i> Profile
+                            <i class="fas fa-user mr-1"></i> {{ $page.props.language['Profile']}}
                         </jet-dropdown-link>
                         <form @submit.prevent="logout">
                             <jet-dropdown-link as="button">
-                                <i class="nav-icon fas fa-sign-out-alt text-danger"></i> Logout
+                                <i class="nav-icon fas fa-sign-out-alt text-danger"></i> {{ $page.props.language['Logout']}}
                             </jet-dropdown-link>
                         </form>
                     </li>

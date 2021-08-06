@@ -1,0 +1,20 @@
+{
+    "Profile": "Perfil",
+    "Logout": "Salir",
+    "Dashboard": "Dashboard",
+    "error": "error",
+    "Administration": "Administración",
+    "Admins": "Administradores",
+    "Search": "Buscar",
+    "Users": "Usuarios",
+    "Roles": "Roles",
+    "Permissions": "Permisos",
+    "Create": "Crear",
+    "Email": "Correo",
+    "Name": "Nombre",
+    "MISCELLANY": "MISCELÁNEA",
+    "per page": "por página",
+    "No users found.": "No se encontraron usuarios.",
+    "English language": "Idioma Inglés",
+    "Spanish language": "Idioma Español"
+}

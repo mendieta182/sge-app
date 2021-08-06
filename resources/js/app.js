@@ -14,11 +14,9 @@ window.Toast=Swal.mixin({
 
 // Import modules...
 import { createApp, h } from 'vue';
+
 import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
-
-//Import base language
-require('./base')
 
 //Import components custom
 import Multiselect from '@suadelabs/vue3-multiselect'
@@ -33,7 +31,8 @@ createApp({
         }),
 })
     .mixin({ methods: { route } })
-    /*.mixin(require('./base'))*/
+    .mixin(require('./base'))
+    .mixin(require('./trans'))
     .use(InertiaPlugin)
     .component('multiselect',Multiselect)
     .mount(el);

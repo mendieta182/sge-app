@@ -9,22 +9,21 @@
                         <div class="col-12">
                             <div class="card card-outline card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Users</h3>
+                                    <h3 class="card-title">{{ $page.props.language['Users']}} </h3>
                                     <button type="button" class="btn btn-info text-uppercase ml-1 btn-sm" style="letter-spacing: 0.1em;" @click="openModal">
-                                        Create
+                                        {{ $page.props.language['Create']}}
                                     </button>
                                     <div class="card-tools">
                                         <div class="input-group input-group-sm">
                                             <input type="text" v-model="params.nameSearch" class="form-control float-right mr-1" placeholder="Name">
                                             <input type="text" v-model="params.emailSearch" class="form-control float-right mr-1" placeholder="Email">
-<!--                                            <input type="text" v-model="params.page" placeholder="" class="form-control float-right mr-1">-->
                                             <select v-model="params.perPage" class="form-control form-control-sm select-sm mb-2">
-                                                <option value="5">5 por página</option>
-                                                <option value="10">10 por página</option>
-                                                <option value="15">15 por página</option>
-                                                <option value="25">25 por página</option>
-                                                <option value="50">50 por página</option>
-                                                <option value="100">100 por página</option>
+                                                <option value="5">5 {{ $page.props.language['per page']}}</option>
+                                                <option value="10">10 {{ $page.props.language['per page']}}</option>
+                                                <option value="15">15 {{ $page.props.language['per page']}}</option>
+                                                <option value="25">25 {{ $page.props.language['per page']}}</option>
+                                                <option value="50">50 {{ $page.props.language['per page']}}</option>
+                                                <option value="100">100 {{ $page.props.language['per page']}}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -34,11 +33,9 @@
                                     <table class="table table-hover text-nowrap">
                                         <thead>
                                             <tr>
-    <!--                                            <th><span @click="sort('name')">Name</span></th>-->
-    <!--                                            <th><span @click="sort('email')">Email</span></th>-->
                                                 <th>#</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
+                                                <th>{{ $page.props.language['Name']}}</th>
+                                                <th>{{ $page.props.language['Email']}}</th>
                                                 <th>Joined</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -55,7 +52,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td v-if="users.data.length === 0" colspan="4">No users found.</td>
+                                                <td v-if="users.data.length === 0" colspan="4">{{ $page.props.language['No users found.']}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -63,8 +60,7 @@
                                 <!-- /.card-body -->
                                 <div class="card-footer clearfix">
                                     <span class="m-0 float-left">
-                                     Mostrando del {{$page.props.users.from}} al {{$page.props.users.to}} de {{$page.props.users.total}} Usuarios
-<!--                                        Página {{$page.props.users.current_page}} - Última página  {{$page.props.users.last_page}} - Por página {{$page.props.users.per_page}}-->
+                                     Mostrando del {{$page.props.users.from}} al {{$page.props.users.to}} de {{$page.props.users.total}} {{ $page.props.language['Users']}}
                                     </span>
                                     <pagination :links="users.links"></pagination>
                                 </div>
@@ -156,8 +152,7 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import Pagination from "@/Components/Pagination";
 import {pickBy} from "lodash";
 export default {
-    //props:['roles','users','perPage','filters'],
-    props:['roles','users','perPage','emailSearch','nameSearch','page'],
+    props:['roles','users','perPage','emailSearch','nameSearch'],
     components:{AdminLayout,Pagination},
     data(){
         return {
@@ -170,40 +165,13 @@ export default {
                 roles: [],
             }),
             roleOptions:this.roles,
-            // params:{
-            //     name: this.filters.name,
-            //     email: this.filters.email,
-            //     field: this.filters.field,
-            //     direction: this.filters.direction,
-            //     perPage: this.perPage
-            // },
             params:{
                     emailSearch: this.emailSearch,
                     nameSearch: this.nameSearch,
                     perPage: this.perPage,
-                    page: this.page
                 }
         }
     },
-    // watch:{
-    //     params:{
-    //         handler(){
-    //             let params=this.params;
-    //
-    //             Object.keys(params).forEach(key=>{
-    //                 if (params[key] == ''){
-    //                     delete params[key]
-    //                 }
-    //                 if (params.perPage == '5'){
-    //                     delete params.perPage
-    //                 }
-    //             });
-    //
-    //             this.$inertia.replace(this.route('admin.users.index', params,{ preserveState: true, preserveScroll: true }));
-    //         },
-    //         deep: true,
-    //     }
-    // },
     watch:{
             params:{
                 handler(){
@@ -244,19 +212,6 @@ export default {
         }
     },
     methods:{
-        // sort(field){
-        //     this.params.field=field;
-        //     this.params.direction = this.params.direction === 'asc' ? 'desc':'asc';
-        // },
-        // userSearch: function (){
-        //     let perPage=this.perPage;
-        //     Object.keys(perPage).forEach(key=>{
-        //         if (perPage[key] == ''){
-        //             delete perPage[key]
-        //         }
-        //     });
-        //     this.$inertia.get(this.route('admin.users.index'),{emailSearch: this.emailSearch, perPage: this.perPage}, { replace: true, preserveState: true, preserveScroll: true });
-        // },
         addTag(newRole) {
             let tag = {
                 name: newRole,

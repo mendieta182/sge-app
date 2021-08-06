@@ -39,7 +39,7 @@
                         <inertia-link :href="route('admin.dashboard.index')" class="nav-link" :class="route().current('admin.dashboard.*') ? 'active':'' ">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
-                                Dashboard
+                                {{ $page.props.language['Dashboard']}}
                             </p>
                         </inertia-link>
                     </li>
@@ -47,7 +47,7 @@
                         <a href="#" class="nav-link" :class="route().current('admin.admins.*|admin.roles.*|admin.users.*|admin.permissions.*') ? 'active':''">
                             <i class="nav-icon fas fa-table"></i>
                             <p>
-                                Administration
+                                {{ $page.props.language['Administration']}}
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
@@ -55,30 +55,30 @@
                             <li class="nav-item">
                                 <inertia-link :href="route('admin.admins.index')" class="nav-link" :class="route().current('admin.admins.*') ? 'active':''">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Admins</p>
+                                    <p>{{ $page.props.language['Admins']}}</p>
                                 </inertia-link>
                             </li>
                             <li class="nav-item">
                                 <inertia-link :href="route('admin.users.index')" class="nav-link" :class="route().current('admin.users.*') ? 'active':''">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Users</p>
+                                    <p>{{ $page.props.language['Users']}}</p>
                                 </inertia-link>
                             </li>
                             <li class="nav-item">
                                 <inertia-link :href="route('admin.roles.index')" class="nav-link" :class="route().current('admin.roles.*') ? 'active':''">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Roles</p>
+                                    <p>{{ $page.props.language['Roles']}}</p>
                                 </inertia-link>
                             </li>
                             <li class="nav-item">
                                 <inertia-link :href="route('admin.permissions.index')" class="nav-link" :class="route().current('admin.permissions.*') ? 'active':''">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Permissions</p>
+                                    <p>{{ $page.props.language['Permissions']}}</p>
                                 </inertia-link>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-header">MISCELANEA</li>
+                    <li class="nav-header">{{ $page.props.language['MISCELLANY']}}</li>
                     <li class="nav-item">
                         <inertia-link :href="route('dashboard')" class="nav-link">
                             <i class="nav-icon fas fa-home"></i>

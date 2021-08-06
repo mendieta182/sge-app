@@ -69,7 +69,6 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 
-    //Custom language optional
     protected $middlewarePriority = [
         // ...
         \Illuminate\Session\Middleware\StartSession::class,

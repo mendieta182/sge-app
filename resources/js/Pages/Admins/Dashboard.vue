@@ -2,7 +2,6 @@
     <admin-layout>
         <template #header>
             <h1 class="m-0">Dashboard</h1>
-            {{ trans.get('Dashboard') }}
         </template>
 
         <section class="content">
